@@ -157,16 +157,18 @@ def help_cmd(msg):
     bot.reply_to(
         msg,
         "📋 *Command Gym Coach*\n\n"
-        "/hariini – Latihan hari ini\n"
-        "/next – Post workout berikutnya ke channel\n"
+        "/hariini – Lihat latihan hari ini\n"
+        "/selesai – Tandai latihan hari ini selesai\n"
+        "/next – Post workout ke channel\n"
         "/motivasi – Motivasi singkat\n"
         "/recovery – Recovery & stretching\n"
         "/alat – Info alat latihan\n"
-        "/resetday - Reset hari count ke 1"
-        "/harike {angka} - Set hari ke berapa"
+        "/harike {angka} – Set day manual\n"
+        "/resetday – Reset ke Day 1\n"
         "/status – Status bot",
         parse_mode="Markdown"
     )
+
 
 @bot.message_handler(commands=["harike"])
 def set_hari_ke(msg):
@@ -209,7 +211,19 @@ def hari_ini(msg):
 
     bot.reply_to(msg, reply)
 
+@bot.message_handler(commands=["selesai"])
+def selesai(msg):
+    day = get_day()
 
+    next_day = day + 1
+    set_day(next_day)
+
+    bot.reply_to(
+        msg,
+        f"✅ Latihan *Day {day}* selesai.\n"
+        f"Besok lanjut *Day {next_day}* 💪",
+        parse_mode="Markdown"
+    )
 
 @bot.message_handler(commands=["recovery"])
 def recovery(msg):
