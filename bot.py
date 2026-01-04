@@ -128,10 +128,18 @@ def chat(msg):
 # Posting 3x seminggu (AMAN)
 schedule.every().monday.at("08:00").do(post_workout)
 schedule.every().wednesday.at("08:00").do(post_workout)
-schedule.every().friday.at("08:00").do(post_workout)
+schedule.every().friday.at("08:00").do(post_workout)cmd
 
-print("Gym Coach Bot running with scheduler...")
+import threading
 
-while True:
-    schedule.run_pending()
-    time.sleep(30)
+def run_scheduler():
+    while True:
+        schedule.run_pending()
+        time.sleep(30)
+
+scheduler_thread = threading.Thread(target=run_scheduler)
+scheduler_thread.daemon = True
+scheduler_thread.start()
+
+print("Gym Coach Bot running with scheduler & polling...")
+bot.infinity_polling(skip_pending=True)
