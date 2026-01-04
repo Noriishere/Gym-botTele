@@ -147,6 +147,23 @@ def help_cmd(msg):
         parse_mode="Markdown"
     )
 
+@bot.message_handler(commands=["harike"])
+def set_hari_ke(msg):
+    parts = msg.text.split()
+    if len(parts) != 2:
+        bot.reply_to(msg, "❌ Format: /harike 2")
+        return
+
+    try:
+        day = int(parts[1])
+        if day < 1:
+            raise ValueError
+        set_day(day)
+        bot.reply_to(msg, f"✅ Hari latihan diset ke Day {day}")
+    except ValueError:
+        bot.reply_to(msg, "❌ Angka tidak valid. Contoh: /harike 1")
+
+
 @bot.message_handler(commands=["hariini"])
 def hari_ini(msg):
     day = get_day()
@@ -170,7 +187,9 @@ def hari_ini(msg):
     )
 
     bot.reply_to(msg, reply)
-    next_day()
+    
+    set_day(day + 1)
+
 
 
 @bot.message_handler(commands=["recovery"])
