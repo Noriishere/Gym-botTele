@@ -51,8 +51,6 @@ WORKOUT_DAYS = [
     "Recovery Day – Istirahat & Stretching"
 ]
 
-current_day_index = 0
-
 DAY_FILE = "day.txt"
 
 def get_day():
@@ -113,23 +111,33 @@ def ask_ai(prompt):
 
 
 def post_workout():
-    global current_day_index
+    day = get_day()
 
     try:
-        day_title = WORKOUT_DAYS[current_day_index]
-
         content = ask_ai(
-            f"Buatkan postingan channel untuk {day_title}. "
-            "Berikan latihan ringan, aman, optimistis, dan realistis."
+            f"IKUTI FORMAT DI BAWAH INI SECARA KETAT.\n"
+            f"JANGAN TAMBAH APA PUN DI LUAR FORMAT.\n"
+            f"MAKSIMAL 3 LATIHAN, MAKSIMAL 3 SET.\n\n"
+            f"FORMAT OUTPUT (WAJIB SAMA):\n"
+            f"Day {day}\n"
+            f"- Barbel curl 8x - 3 repeat\n\n"
+            f"- Dumbbell Shoulder press 12x - 2 repeat\n\n"
+            f"- Two-Hand Overhead Dumbbell Tricep Extension 15x - 2 repeat\n\n"
+            f"RULE:\n"
+            f"- Gunakan HANYA barbel 10kg & dumbbell 5kg\n"
+            f"- Jangan beri penjelasan\n"
+            f"- Jangan beri motivasi\n"
+            f"- Jangan pakai emoji\n"
+            f"- Output TEKS SAJA\n\n"
+            f"Sekarang buatkan PROGRAM LATIHAN HARI INI."
         )
 
-        message = f"🏋️ {day_title}\n\n{content}"
+        message = content
         bot.send_message(CHANNEL_ID, message)
-
-        current_day_index = (current_day_index + 1) % len(WORKOUT_DAYS)
 
     except Exception as e:
         print("Error posting workout:", e)
+
 
 # ================= COMMAND MANUAL =================
 
@@ -200,8 +208,6 @@ def hari_ini(msg):
     )
 
     bot.reply_to(msg, reply)
-    
-    set_day(day + 1)
 
 
 
