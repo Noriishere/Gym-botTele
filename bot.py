@@ -128,7 +128,7 @@ def chat(msg):
 # Posting 3x seminggu (AMAN)
 schedule.every().monday.at("08:00").do(post_workout)
 schedule.every().wednesday.at("08:00").do(post_workout)
-schedule.every().friday.at("08:00").do(post_workout)cmd
+schedule.every().friday.at("08:00").do(post_workout)
 
 import threading
 
