@@ -71,7 +71,19 @@ def ask_ai(prompt):
 
     r = requests.post(OPENROUTER_URL, json=payload, headers=headers, timeout=60)
     r.raise_for_status()
-    return r.json()["choices"][0]["message"]["content"]
+    data = r.json()
+
+content = (
+    data.get("choices", [{}])[0]
+    .get("message", {})
+    .get("content")
+)
+
+if not content or not content.strip():
+    return "⚠️ AI lagi gak bisa jawab. Coba beberapa detik lagi."
+
+return content
+
 
 def post_workout():
     global current_day_index
