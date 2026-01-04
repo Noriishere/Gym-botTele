@@ -130,16 +130,17 @@ schedule.every().monday.at("08:00").do(post_workout)
 schedule.every().wednesday.at("08:00").do(post_workout)
 schedule.every().friday.at("08:00").do(post_workout)
 
-import threading
+print("Gym Coach Bot running with scheduler & polling...")
 
-def run_scheduler():
-    while True:
-        schedule.run_pending()
-        time.sleep(30)
+while True:
+    try:
+        bot.polling(non_stop=True, timeout=60)
+    except Exception as e:
+        print("Polling error:", e)
+        time.sleep(5)
 
-scheduler_thread = threading.Thread(target=run_scheduler)
-scheduler_thread.daemon = True
-scheduler_thread.start()
+    schedule.run_pending()
+    time.sleep(1)
 
 print("Gym Coach Bot running with scheduler & polling...")
 bot.infinity_polling(skip_pending=True)
