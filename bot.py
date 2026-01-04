@@ -98,11 +98,58 @@ def post_workout():
 def start(msg):
     bot.reply_to(
         msg,
-        "💪 Gym Coach Bot aktif\n\n"
-        "Posting latihan akan dikirim otomatis ke channel.\n"
-        "Command:\n"
-        "/next - Post latihan berikutnya sekarang\n"
-        "/motivasi - Motivasi latihan\n"
+        "💪 *Gym Coach Bot aktif*\n\n"
+        "Gue coach gym lu.\n"
+        "Latihan disesuaikan alat & kondisi.\n\n"
+        "Ketik /help buat lihat command.",
+        parse_mode="Markdown"
+    )
+
+@bot.message_handler(commands=["help"])
+def help_cmd(msg):
+    bot.reply_to(
+        msg,
+        "📋 *Command Gym Coach*\n\n"
+        "/hariini – Latihan hari ini\n"
+        "/next – Post workout berikutnya ke channel\n"
+        "/motivasi – Motivasi singkat\n"
+        "/recovery – Recovery & stretching\n"
+        "/alat – Info alat latihan\n"
+        "/status – Status bot",
+        parse_mode="Markdown"
+    )
+
+@bot.message_handler(commands=["hariini"])
+def hari_ini(msg):
+    reply = ask_ai(
+        "Berikan PROGRAM LATIHAN HARI INI.\n"
+        "WAJIB workout, BUKAN recovery.\n"
+        "Gunakan barbel 10kg & 1 dumbbell 5kg.\n"
+        "Format jelas: exercise, set, rep.\n"
+        "Tone santai & optimistis."
+    )
+    bot.reply_to(msg, reply)
+
+@bot.message_handler(commands=["recovery"])
+def recovery(msg):
+    reply = ask_ai(
+        "Buatkan recovery day ringan.\n"
+        "Stretching + mobility.\n"
+        "Durasi 10–20 menit.\n"
+        "Tanpa alat tambahan."
+    )
+    bot.reply_to(msg, reply)
+
+@bot.message_handler(commands=["status"])
+def status(msg):
+    bot.reply_to(
+        msg,
+        "✅ *Status Bot*\n\n"
+        "- Mode: Polling\n"
+        "- Scheduler: Aktif\n"
+        "- Posting: Senin / Rabu / Jumat\n"
+        "- Fokus: Safe & sustainable",
+        parse_mode="Markdown"
     )
 
 @bot.message_handler(commands=["next"])
