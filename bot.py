@@ -13,7 +13,7 @@ CHANNEL_ID = os.getenv("CHANNEL_ID")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-MODEL = "openchat/openchat-3.5"
+MODEL = "mistralai/mistral-7b-instruct"
 
 SYSTEM_PROMPT = """
 Kamu adalah Coach Fit, personal gym coach yang suportif, realistis, dan peduli keselamatan.
