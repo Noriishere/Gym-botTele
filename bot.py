@@ -134,13 +134,28 @@ def help_cmd(msg):
 @bot.message_handler(commands=["hariini"])
 def hari_ini(msg):
     reply = ask_ai(
-        "Berikan PROGRAM LATIHAN HARI INI.\n"
-        "WAJIB workout, BUKAN recovery.\n"
-        "Gunakan barbel 10kg & 1 dumbbell 5kg.\n"
-        "Format jelas: exercise, set, rep.\n"
-        "Tone santai & optimistis."
+        "IKUTI FORMAT DI BAWAH INI SECARA KETAT.\n"
+        "JANGAN TAMBAH APA PUN DI LUAR FORMAT.\n"
+        "JANGAN TAMBAH SET LEBIH DARI 3.\n\n"
+        "FORMAT OUTPUT (WAJIB SAMA):\n"
+        "Day 1\n"
+        "- Barbel curl 8x - 3 repeat\n\n"
+        "- Dumbbell Shoulder press 12x - 2 repeat\n\n"
+        "- Two-Hand Overhead Dumbbell Tricep Extension 15x - 2 repeat\n\n"
+        "RULE:\n"
+        "- Maksimal 3 latihan\n"
+        "- Maksimal 3 set per latihan\n"
+        "- Gunakan HANYA barbel 10kg & dumbbell 5kg\n"
+        "- Jangan beri penjelasan\n"
+        "- Jangan beri motivasi\n"
+        "- Jangan beri catatan\n"
+        "- Jangan pakai emoji\n"
+        "- Jangan pakai markdown\n"
+        "- Output TEKS SAJA\n\n"
+        "Sekarang buatkan PROGRAM LATIHAN HARI INI."
     )
     bot.reply_to(msg, reply)
+
 
 @bot.message_handler(commands=["recovery"])
 def recovery(msg):
