@@ -53,6 +53,23 @@ WORKOUT_DAYS = [
 
 current_day_index = 0
 
+DAY_FILE = "day.txt"
+
+def get_day():
+    if not os.path.exists(DAY_FILE):
+        with open(DAY_FILE, "w") as f:
+            f.write("1")
+        return 1
+    with open(DAY_FILE) as f:
+        return int(f.read().strip())
+
+def next_day():
+    day = get_day() + 1
+    with open(DAY_FILE, "w") as f:
+        f.write(str(day))
+    return day
+
+
 def ask_ai(prompt):
     payload = {
         "model": MODEL,
@@ -127,34 +144,35 @@ def help_cmd(msg):
         "/motivasi – Motivasi singkat\n"
         "/recovery – Recovery & stretching\n"
         "/alat – Info alat latihan\n"
+        "/resetday - Reset hari count ke 1"
         "/status – Status bot",
         parse_mode="Markdown"
     )
 
 @bot.message_handler(commands=["hariini"])
 def hari_ini(msg):
+    day = get_day()
+
     reply = ask_ai(
-        "IKUTI FORMAT DI BAWAH INI SECARA KETAT.\n"
-        "JANGAN TAMBAH APA PUN DI LUAR FORMAT.\n"
-        "JANGAN TAMBAH SET LEBIH DARI 3.\n\n"
-        "FORMAT OUTPUT (WAJIB SAMA):\n"
-        "Day 1\n"
-        "- Barbel curl 8x - 3 repeat\n\n"
-        "- Dumbbell Shoulder press 12x - 2 repeat\n\n"
-        "- Two-Hand Overhead Dumbbell Tricep Extension 15x - 2 repeat\n\n"
-        "RULE:\n"
-        "- Maksimal 3 latihan\n"
-        "- Maksimal 3 set per latihan\n"
-        "- Gunakan HANYA barbel 10kg & dumbbell 5kg\n"
-        "- Jangan beri penjelasan\n"
-        "- Jangan beri motivasi\n"
-        "- Jangan beri catatan\n"
-        "- Jangan pakai emoji\n"
-        "- Jangan pakai markdown\n"
-        "- Output TEKS SAJA\n\n"
-        "Sekarang buatkan PROGRAM LATIHAN HARI INI."
+        f"IKUTI FORMAT DI BAWAH INI SECARA KETAT.\n"
+        f"JANGAN TAMBAH APA PUN DI LUAR FORMAT.\n"
+        f"MAKSIMAL 3 LATIHAN, MAKSIMAL 3 SET.\n\n"
+        f"FORMAT OUTPUT (WAJIB SAMA):\n"
+        f"Day {day}\n"
+        f"- Barbel curl 8x - 3 repeat\n\n"
+        f"- Dumbbell Shoulder press 12x - 2 repeat\n\n"
+        f"- Two-Hand Overhead Dumbbell Tricep Extension 15x - 2 repeat\n\n"
+        f"RULE:\n"
+        f"- Gunakan HANYA barbel 10kg & dumbbell 5kg\n"
+        f"- Jangan beri penjelasan\n"
+        f"- Jangan beri motivasi\n"
+        f"- Jangan pakai emoji\n"
+        f"- Output TEKS SAJA\n\n"
+        f"Sekarang buatkan PROGRAM LATIHAN HARI INI."
     )
+
     bot.reply_to(msg, reply)
+    next_day()
 
 
 @bot.message_handler(commands=["recovery"])
@@ -178,6 +196,13 @@ def status(msg):
         "- Fokus: Safe & sustainable",
         parse_mode="Markdown"
     )
+
+@bot.message_handler(commands=["resetday"])
+def reset_day(msg):
+    with open(DAY_FILE, "w") as f:
+        f.write("1")
+    bot.reply_to(msg, "🔄 Day direset ke Day 1.")
+
 
 @bot.message_handler(commands=["next"])
 def manual_next(msg):
