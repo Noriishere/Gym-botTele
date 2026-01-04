@@ -73,16 +73,16 @@ def ask_ai(prompt):
     r.raise_for_status()
     data = r.json()
 
-content = (
-    data.get("choices", [{}])[0]
-    .get("message", {})
-    .get("content")
-)
+    content = (
+        data.get("choices", [{}])[0]
+        .get("message", {})
+        .get("content")
+    )
 
-if not content or not content.strip():
-    return "⚠️ AI lagi gak bisa jawab. Coba beberapa detik lagi."
+    if not content or not content.strip():
+        return "⚠️ AI lagi gak bisa jawab. Coba beberapa detik lagi."
 
-return content
+    return content
 
 
 def post_workout():
