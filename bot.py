@@ -63,11 +63,9 @@ def get_day():
     with open(DAY_FILE) as f:
         return int(f.read().strip())
 
-def next_day():
-    day = get_day() + 1
+def set_day(day: int):
     with open(DAY_FILE, "w") as f:
         f.write(str(day))
-    return day
 
 
 def ask_ai(prompt):
