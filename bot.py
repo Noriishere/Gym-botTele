@@ -200,6 +200,3 @@ while True:
 
     schedule.run_pending()
     time.sleep(1)
-
-print("Gym Coach Bot running with scheduler & polling...")
-bot.infinity_polling(skip_pending=True)
