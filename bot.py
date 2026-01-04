@@ -76,18 +76,21 @@ def ask_ai(prompt):
 def post_workout():
     global current_day_index
 
-    day_title = WORKOUT_DAYS[current_day_index]
+    try:
+        day_title = WORKOUT_DAYS[current_day_index]
 
-    content = ask_ai(
-        f"Buatkan postingan channel untuk {day_title}. "
-        "Berikan latihan ringan, aman, optimistis, dan realistis."
-    )
+        content = ask_ai(
+            f"Buatkan postingan channel untuk {day_title}. "
+            "Berikan latihan ringan, aman, optimistis, dan realistis."
+        )
 
-    message = f"🏋️ {day_title}\n\n{content}"
+        message = f"🏋️ {day_title}\n\n{content}"
+        bot.send_message(CHANNEL_ID, message)
 
-    bot.send_message(CHANNEL_ID, message)
+        current_day_index = (current_day_index + 1) % len(WORKOUT_DAYS)
 
-    current_day_index = (current_day_index + 1) % len(WORKOUT_DAYS)
+    except Exception as e:
+        print("Error posting workout:", e)
 
 # ================= COMMAND MANUAL =================
 
@@ -111,6 +114,14 @@ def manual_next(msg):
 def motivasi(msg):
     text = ask_ai("Buatkan motivasi singkat tentang konsistensi latihan.")
     bot.reply_to(msg, text)
+
+@bot.message_handler(func=lambda m: True)
+def chat(msg):
+    try:
+        reply = ask_ai(msg.text)
+        bot.reply_to(msg, reply)
+    except Exception as e:
+        bot.reply_to(msg, "⚠️ Lagi capek bentar, coba lagi ya.")
 
 # ================= SCHEDULER =================
 
