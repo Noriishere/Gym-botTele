@@ -84,10 +84,20 @@ def ask_ai(prompt):
         "X-Title": "GymCoachBot"
     }
 
+    def clean_output(text: str) -> str:
+    if not text:
+        return text
+
+    BAD_TOKENS = ["<s>", "</s>"]
+    for t in BAD_TOKENS:
+        text = text.replace(t, "")
+
+    return text.strip()
+    
     r = requests.post(OPENROUTER_URL, json=payload, headers=headers, timeout=60)
     r.raise_for_status()
     data = r.json()
-
+        
     content = (
         data.get("choices", [{}])[0]
         .get("message", {})
@@ -97,7 +107,9 @@ def ask_ai(prompt):
     if not content or not content.strip():
         return "⚠️ AI lagi gak bisa jawab. Coba beberapa detik lagi."
 
+    content = clean_output(content)
     return content
+
 
 
 def post_workout():
@@ -143,6 +155,7 @@ def help_cmd(msg):
         "/recovery – Recovery & stretching\n"
         "/alat – Info alat latihan\n"
         "/resetday - Reset hari count ke 1"
+        "/harike {angka} - Set hari ke berapa"
         "/status – Status bot",
         parse_mode="Markdown"
     )
