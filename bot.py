@@ -13,7 +13,7 @@ CHANNEL_ID = os.getenv("CHANNEL_ID")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-MODEL = "nex-agi/deepseek-v3.1-nex-n1"
+MODEL = "openchat/openchat-3.5"
 
 SYSTEM_PROMPT = """
 Kamu adalah Coach Fit, personal gym coach yang suportif, realistis, dan peduli keselamatan.
