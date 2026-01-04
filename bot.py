@@ -85,14 +85,14 @@ def ask_ai(prompt):
     }
 
     def clean_output(text: str) -> str:
-    if not text:
-        return text
+        if not text:
+            return text
 
-    BAD_TOKENS = ["<s>", "</s>"]
-    for t in BAD_TOKENS:
-        text = text.replace(t, "")
+        BAD_TOKENS = ["<s>", "</s>"]
+        for t in BAD_TOKENS:
+            text = text.replace(t, "")
 
-    return text.strip()
+        return text.strip()
     
     r = requests.post(OPENROUTER_URL, json=payload, headers=headers, timeout=60)
     r.raise_for_status()
